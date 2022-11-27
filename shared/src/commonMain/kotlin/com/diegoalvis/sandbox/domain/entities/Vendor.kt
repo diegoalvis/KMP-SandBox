@@ -31,7 +31,6 @@ data class Vendor(
         val maxOrdersInProgress: Int,
         val assignmentFcfsEnabled: Boolean,
     )
-
 }
 
 fun Vendor.isDmart() = businessUnit == BusinessUnit.DMART
@@ -40,7 +39,7 @@ fun Vendor.isNotDmart() = !isDmart()
 
 fun Vendor.isSingleStore(): Boolean = stores?.size == 1
 
-fun Vendor.getPlatformVendorIds(): List<String> = stores?.map(Vendor.Store::platformVendorId) ?: listOf()
+fun Vendor.getPlatformVendorIds(): List<String> = stores?.map(VendorStore::platformVendorId) ?: listOf()
 
 fun Vendor.isPurchaseOrdersEnabled(country: Country): Boolean {
     val feature = country.config.featurePurchaseOrders ?: return false
@@ -81,3 +80,7 @@ fun Vendor.getSingleStorePlatformId(): String? = when {
     isSingleStore() -> stores?.first()?.platformVendorId
     else -> null
 }
+
+
+typealias VendorStore = Vendor.Store
+typealias VendorConfig = Vendor.VendorConfig
