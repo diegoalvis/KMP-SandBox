@@ -1,45 +1,30 @@
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     id("com.android.library")
 }
 
-version = "1.0"
-
 kotlin {
     android()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../ios/Podfile")
-        framework {
-            baseName = "shared"
+    
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "base"
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-            }
-        }
+        val commonMain by getting
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-
-        // Android
         val androidMain by getting
         val androidTest by getting
-
-        // iOS
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -62,10 +47,10 @@ kotlin {
 }
 
 android {
+    namespace = "com.diegoalvis.base"
     compileSdk = 32
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 23
+        minSdk = 24
         targetSdk = 32
     }
 }

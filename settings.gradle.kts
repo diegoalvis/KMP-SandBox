@@ -9,3 +9,4 @@ pluginManagement {
 rootProject.name = "SandBox"
 include(":android")
 include(":shared")
+include(":base")
